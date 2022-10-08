@@ -1,0 +1,227 @@
+library(ggplot2)
+library(dplyr)
+
+
+is_outlier <- function(research_vol_npr) {
+  research_vol_npr < quantile(research_vol_npr, 0.25) - (1.5 * IQR(research_vol_npr)) | research_vol_npr > quantile(research_vol_npr, 0.96) + (1.5 * IQR(research_vol_npr))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(research_vol_npr), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = research_vol_npr,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=2, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  geom_text(aes(label = outlier), color = 'grey80', 
+            na.rm = TRUE, hjust = 1) +
+  coord_flip() +
+  labs(
+    y = "тысячи рублей/НПР",
+    x = "Год",
+    fill = NULL
+  ) + theme_bw()
+
+ggsave("ris1.tiff", device='tiff', units = "mm", width = 135, height = 110, dpi = 300)
+
+
+is_outlier <- function(n_grants) {
+  n_grants < quantile(n_grants, 0.25) - (1.5 * IQR(n_grants)) | n_grants > quantile(n_grants, 0.82) + (1.5 * IQR(n_grants))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(n_grants), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = n_grants,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=2, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  scale_x_discrete(
+    limits = factor(2014:2021), 
+  ) +
+  geom_text(aes(label = outlier), color = 'grey80', 
+            na.rm = TRUE, hjust = 1) +
+  coord_flip() +
+  labs(
+    y = "число полученных грантов/100 НПР",
+    x = "Год",
+    fill = NULL
+  ) + theme_bw()
+
+ggsave("ris2.tiff", device='tiff', units = "mm", width = 135, height = 100, dpi = 300)
+
+is_outlier <- function(RSCF_npr) {
+  RSCF_npr < quantile(RSCF_npr, 0.25) - (1.5 * IQR(RSCF_npr)) | RSCF_npr > quantile(RSCF_npr, 0.9895) + (1.5 * IQR(RSCF_npr))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(RSCF_npr), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = RSCF_npr,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=2, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  scale_x_discrete(
+    limits = factor(2014:2021), 
+  ) +
+  geom_text(aes(label = outlier), color = 'grey80', 
+            na.rm = TRUE, hjust = 1) +
+  coord_flip() +
+  labs(
+    y = "число полученных грантов/100 НПР",
+    x = "Год",
+    fill = NULL
+  ) + theme_bw()
+
+ggsave("ris3.tiff", device='tiff', units = "mm", width = 135, height = 100, dpi = 300)
+
+is_outlier <- function(niokr_wo_budget) {
+  niokr_wo_budget < quantile(niokr_wo_budget, 0.25) - (1.5 * IQR(niokr_wo_budget)) | niokr_wo_budget > quantile(niokr_wo_budget, 0.968) + (1.5 * IQR(niokr_wo_budget))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(niokr_wo_budget), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = niokr_wo_budget,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=2, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  scale_x_discrete(
+    limits = factor(2013:2021), 
+  ) +
+  geom_text(aes(label = outlier), color = 'grey80', 
+            na.rm = TRUE, hjust = 1) +
+  coord_flip() +
+  labs(
+    y = "тысячи рублей/НПР",
+    x = "Год",
+    fill = NULL
+  ) + theme_bw()
+
+ggsave("ris4.tiff", device='tiff', units = "mm", width = 135, height = 105, dpi = 300)
+
+
+is_outlier <- function(income_foreign) {
+  income_foreign < quantile(income_foreign, 0.25) - (1.5 * IQR(income_foreign)) | income_foreign > quantile(income_foreign, 0.975) + (1.5 * IQR(income_foreign))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(income_foreign), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = income_foreign,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=4, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  scale_x_discrete(
+    limits = factor(2013:2021), 
+  ) +
+  geom_text(aes(label = outlier), color = 'grey80', 
+            na.rm = TRUE, hjust = 1) +
+  coord_flip() +
+  labs(
+    y = "тысячи рублей",
+    x = "год",
+    fill = NULL
+  ) + theme_bw()
+
+ggsave("boxplot5.png", device='png', dpi = 300)
+
+
+is_outlier <- function(niokr_foreign) {
+  niokr_foreign < quantile(niokr_foreign, 0.25) - (1.5 * IQR(niokr_foreign)) | niokr_foreign > quantile(niokr_foreign, 0.95) + (1.5 * IQR(niokr_foreign))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(niokr_foreign), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = niokr_foreign,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=4, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  scale_x_discrete(
+    limits = factor(2013:2021), 
+  ) +
+  geom_text(aes(label = outlier), color = 'grey70', 
+            na.rm = TRUE, hjust = 1) +
+  coord_flip() +
+  labs(
+    y = "тысячи рублей",
+    x = "год",
+    fill = NULL
+  ) + theme_bw()
+ggsave("boxplot6.png", device='png', dpi = 300)
+
+
+is_outlier <- function(extra_budget_research) {
+  extra_budget_research < quantile(extra_budget_research, 0.87) - (1.5 * IQR(extra_budget_research)) | extra_budget_research > quantile(extra_budget_research, 0.8) + (1.5 * IQR(extra_budget_research))
+}
+
+complete_data %>% 
+  mutate(
+    YEAR = factor(YEAR)
+  ) %>%   mutate(outlier = ifelse(is_outlier(extra_budget_research), short, as.numeric(NA))) %>%
+  ggplot() +
+  aes(
+    x = YEAR,
+    y = extra_budget_research,
+    fill = Status5_100
+  ) +
+  geom_boxplot(, show.legend = FALSE) + 
+  stat_summary(fun="mean", geom="point", size=2, shape=3,
+               position=position_dodge(width=0.75), color="grey70", show.legend = FALSE) +
+  scale_fill_grey(start = 0.4, end = 1) +
+  scale_x_discrete(
+    limits = factor(2014:2021), 
+  ) +
+  geom_text(aes(label = outlier), color = 'grey70', 
+            na.rm = TRUE, hjust = -0.2) +
+  coord_flip() +
+  labs(
+    y = "доля, %",
+    x = "Год",
+    fill = NULL
+  ) + theme_bw()
+
+ggsave("ris5.tiff", device='tiff', units = "mm", width = 135, height = 100, dpi = 300)
